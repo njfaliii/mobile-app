@@ -1,0 +1,72 @@
+mobile app lab 2 (25th sep 2024)
+
+1)
+void main(){
+int num1=25;
+int num2=5;
+double c=num1/num2;
+print(c);
+}
+
+
+2)
+void main(){
+int a=10;
+var result= -a;
+print(result);
+}
+
+3)
+void main(){
+int a=5;
+int b=25;
+var result=(a<=b);
+print(result);
+}
+
+4)
+void main(){
+var num1=5;
+var num2=25;
+var result=(num1==num2);
+print(result);
+
+var num1=25;
+var num2=25;
+var result=(num1==num2);
+print(result);
+}
+
+5)
+void main(){
+var num1=5;
+var num2=25;
+var result=(num1!=num2);
+print(result);
+}
+
+6)
+void main(){
+var a;
+a??=5;
+print(a);
+}
+
+7)
+void main(){
+var a=21;
+var result=(a<=18)? "user is eligible":"user is not eligible";
+print(result);
+}
+
+8)
+void main(){
+var a= 90;
+var b= premium;
+var 
+
+ 
+
+
+
+ 
