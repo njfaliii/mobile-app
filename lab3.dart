@@ -180,3 +180,110 @@
 // }
 
 
+
+// void main(){
+//  int a = 15;
+//  int b = 7;
+//  var  sum = a+b;
+//  print(sum);
+// }
+
+
+// void main(){
+//   double x=10.5;
+//   double y=3.2;
+//   var product = x*y;
+//   print(product);
+
+// }
+
+
+// void main(){
+//   double num =-8;
+//   print(num.abs());
+// }
+
+// void main(){
+//   double decimalNum = 7.3;
+//   print(decimalNum.ceil());
+//   print(decimalNum.floor());
+// }
+
+
+// void main(){
+//   var a=10;
+//   var b=20;
+//   print ((a>b? '$a is greater':'$b is greater'));
+// }
+
+
+// void main(){
+//   Set<int>nums ={};
+//   print(nums);
+// }
+
+// void main(){
+//   Set<int>nums={10,20,30};
+//   print(nums);
+
+// }
+
+
+// void main(){
+//   Set<int>nums={10,20,30};
+//   print(nums.remove(20));
+//   print(nums);
+// }
+
+// void main(){
+//   Set<int>nums={10,20,30};
+//   print(nums.contains(15));
+//   print(nums);
+// }
+
+// void main(){
+//   Set<int>otherset={20,30,40};
+//   print(otherset);
+// }
+
+// void main(){
+//   Set<int>myset={10,20,30};
+//    Set<int>otherset={10,20,30};
+//    Set<int>unionset=myset.union(otherset);
+//    print(unionset);
+
+// }
+// // 
+// void main()
+// {
+
+// Set‹int>myset={10,20,30};
+// Set<int›otherset={20,30,40};
+// Set<int›unionset=myset. intersection(otherset);
+// print(unionset) ;
+// }
+
+
+
+// void main( ){
+// Set<int›myset={10,20,30};
+// Set<int>otherset={20,30,40};
+// Set<int›unionset=myset.difference(otherset);
+// print(unionset) ;
+// }
+
+
+
+// void main(){
+// Set<int›myset={10,20,30};
+// print(myset);
+// myset.forEach((eLement) => 10,);
+// void main( )
+// Set<String>empLoyeeSet=f'najaf', 'noor', 'saad'};
+// List<String>empLoyee_tst=empLoyeeSet.toList();
+// var empLoyeemap = employeeSet.map((value) (
+// return '$value';
+// });
+// print (employee_tst);
+// print(employeeSet);
+// print (empLoyeemap);
