@@ -1,141 +1,200 @@
 import 'package:flutter/material.dart';
+import 'dart:async';
+import 'package:intl/intl.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const ProfessionalClockApp());
 }
 
-class MyApp extends StatelessWidget {
+class ProfessionalClockApp extends StatelessWidget {
+  const ProfessionalClockApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        body: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            children: [
-              Expanded(
-                // Wrap the row with Expanded to take up available space
-                child: Row(
-                  children: [
-                    // Left Column
-                    Flexible(
-                      // Use Flexible instead of Expanded
-                      child: SingleChildScrollView(
-                        // Use SingleChildScrollView to make the content scrollable
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              padding: EdgeInsets.all(8),
-                              child: Text(
-                                "Title",
-                                style: TextStyle(fontSize: 24),
-                              ),
-                            ),
-                            Container(
-                              padding: EdgeInsets.all(8),
-                              child: Text(
-                                "RADO is a Swiss luxury watchmaking company known for its innovative designs and high-quality timepieces. Since 1917, RADO has set new trends in the watch industry, blending craftsmanship with cutting-edge technology and materials. RADO’s dedication to design and innovation has positioned it as a leader in luxury watchmaking. With unique materials and advanced technology, RADO watches are known for their durability and aesthetic appeal, catering to watch enthusiasts worldwide.",
-                              ),
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                IconContainer(icon: Icons.home, label: "Home"),
-                                IconContainer(
-                                    icon: Icons.contact_page, label: "Contact"),
-                                IconContainer(
-                                    icon: Icons.phone, label: "Phone"),
-                              ],
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Column(
-                                children: [
-                                  SocialIcon(
-                                      icon: Icons.facebook, label: "Facebook"),
-                                  SocialIcon(
-                                      icon: Icons.snapchat, label: "Snapchat"),
-                                  SocialIcon(
-                                      icon: Icons.facebook, label: "Facebook"),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-
-                    // Right Column
-                    Flexible(
-                      // Use Flexible instead of Expanded
-                      child: Column(
-                        children: [
-                          Container(
-                            height: 200,
-                            color: Colors.grey[300],
-                            child: Center(
-                              child: Image.asset(
-                                  'assets/images/rado.jpg'), // Image in assets
-                            ),
-                          ),
-                          SizedBox(height: 8),
-                          Container(
-                            padding: EdgeInsets.all(8),
-                            child: Text("RADO Watches"),
-                          ),
-                          Container(
-                            padding: EdgeInsets.all(8),
-                            child: Text(
-                              "RADO’s dedication to design and innovation has positioned it as a leader in luxury watchmaking. With unique materials and advanced technology, RADO watches are known for their durability and aesthetic appeal, catering to watch enthusiasts worldwide.",
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
+      title: 'Professional Digital Clock',
+      theme: ThemeData(
+        brightness: Brightness.dark,
+        primaryColor: Colors.black,
+        scaffoldBackgroundColor: Colors.black,
+        textTheme: const TextTheme(
+          displayLarge: TextStyle(
+            fontSize: 72,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+            letterSpacing: 2.0,
           ),
         ),
       ),
+      home: const AdvancedDigitalClock(),
     );
   }
 }
 
-class IconContainer extends StatelessWidget {
-  final IconData icon;
-  final String label;
-
-  IconContainer({required this.icon, required this.label});
+class AdvancedDigitalClock extends StatefulWidget {
+  const AdvancedDigitalClock({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Icon(icon, size: 40),
-        SizedBox(height: 4),
-        Text(label),
-      ],
-    );
-  }
+  _AdvancedDigitalClockState createState() => _AdvancedDigitalClockState();
 }
 
-class SocialIcon extends StatelessWidget {
-  final IconData icon;
-  final String label;
+class _AdvancedDigitalClockState extends State<AdvancedDigitalClock> {
+  late Timer _timer;
+  late DateTime _currentTime;
+  late String _timeZone;
+  late bool _is24HourFormat;
+  late bool _showSeconds;
 
-  SocialIcon({required this.icon, required this.label});
+  @override
+  void initState() {
+    super.initState();
+    _currentTime = DateTime.now();
+    _timeZone = _getCurrentTimeZone();
+    _is24HourFormat = true;
+    _showSeconds = true;
+
+    // Update every second
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      setState(() {
+        _currentTime = DateTime.now();
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
+  }
+
+  String _getCurrentTimeZone() {
+    final String timeZoneName = _currentTime.timeZoneName;
+    final Duration timeZoneOffset = _currentTime.timeZoneOffset;
+    
+    String offsetString = timeZoneOffset.isNegative 
+      ? '-${timeZoneOffset.inHours.abs().toString().padLeft(2, '0')}:${(timeZoneOffset.inMinutes.abs() % 60).toString().padLeft(2, '0')}'
+      : '+${timeZoneOffset.inHours.toString().padLeft(2, '0')}:${(timeZoneOffset.inMinutes % 60).toString().padLeft(2, '0')}';
+    
+    return '$timeZoneName (UTC$offsetString)';
+  }
+
+  String _formatTime() {
+    if (_is24HourFormat) {
+      return _showSeconds 
+        ? DateFormat('HH:mm:ss').format(_currentTime)
+        : DateFormat('HH:mm').format(_currentTime);
+    } else {
+      return _showSeconds 
+        ? DateFormat('hh:mm:ss a').format(_currentTime)
+        : DateFormat('hh:mm a').format(_currentTime);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Icon(icon, size: 24),
-        SizedBox(width: 8),
-        Text(label),
-      ],
+    return Scaffold(
+      body: Stack(
+        fit: StackFit.expand,
+        children: [
+          // Gradient Background
+          Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  Colors.black87,
+                  Colors.black54,
+                  Colors.black38,
+                ],
+              ),
+            ),
+          ),
+
+          // Main Clock Display
+          SafeArea(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                // Time Display
+                Text(
+                  _formatTime(),
+                  style: Theme.of(context).textTheme.displayLarge?.copyWith(
+                    fontSize: 86,
+                    color: Colors.white.withOpacity(0.9),
+                    shadows: [
+                      Shadow(
+                        blurRadius: 10.0,
+                        color: Colors.blue.withOpacity(0.5),
+                        offset: const Offset(3, 3),
+                      ),
+                    ],
+                  ),
+                ),
+
+                // Date Display
+                Text(
+                  DateFormat('EEEE, MMMM d, yyyy').format(_currentTime),
+                  style: TextStyle(
+                    color: Colors.white70,
+                    fontSize: 22,
+                    letterSpacing: 1.2,
+                  ),
+                ),
+
+                const SizedBox(height: 20),
+
+                // TimeZone Display
+                Text(
+                  _timeZone,
+                  style: TextStyle(
+                    color: Colors.white54,
+                    fontSize: 16,
+                  ),
+                ),
+
+                const SizedBox(height: 40),
+
+                // Control Buttons
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    // Toggle 12/24 Hour Format
+                    ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          _is24HourFormat = !_is24HourFormat;
+                        });
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.blue.withOpacity(0.3),
+                        foregroundColor: Colors.white,
+                      ),
+                      child: Text(_is24HourFormat ? '24H' : '12H'),
+                    ),
+
+                    const SizedBox(width: 20),
+
+                    // Toggle Seconds Display
+                    ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          _showSeconds = !_showSeconds;
+                        });
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.blue.withOpacity(0.3),
+                        foregroundColor: Colors.white,
+                      ),
+                      child: Text(_showSeconds ? 'Hide Seconds' : 'Show Seconds'),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
